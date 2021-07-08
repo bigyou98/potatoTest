@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { ListBox } from "./index";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import cursorImg from "../img/sanghun2.png";
 
 export const MainTodo = () => {
   const focusing = useRef();
@@ -56,6 +57,7 @@ export const MainTodo = () => {
   );
 };
 const SmartPhone = styled.div`
+  cursor: url(${cursorImg}), auto;
   text-align: center;
   border-radius: 64px;
   width: 640px;

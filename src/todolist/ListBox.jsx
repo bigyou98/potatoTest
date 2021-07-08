@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ListItem } from "./index";
 
 // todos 받아오기
-export const ListBox = ({ clickDeleteBtn, todos }) => {
+export const ListBox = ({ clickDeleteBtn, todos}) => {
   return (
     <List>
       {todos.map((todo) => (

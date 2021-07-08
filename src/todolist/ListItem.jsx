@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 export const ListItem = ({ todo, clickDeleteBtn }) => {
   const { text, id } = todo;
+  const item = useRef();
+  useEffect(() => {
+    item.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  });
   return (
-    <Item>
+    <Item ref={item}>
       {text}
       <DeleteBtn onClick={() => clickDeleteBtn(id)}>
         <RiDeleteBin5Line />{" "}
