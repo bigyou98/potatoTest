@@ -1,39 +1,47 @@
-import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import { ListBox } from "./index";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import cursorImg from "../img/sanghun2.png";
+import React, { useCallback, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { ListBox } from './index';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
+const createBulkTodos = () => {
+  const array = [];
+  for (let i = 1; i <= 2500; i++) {
+    array.push({
+      id: i,
+      text: `할일${i}`,
+    });
+  }
+  return array;
+};
 export const MainTodo = () => {
   const focusing = useRef();
-  const [text, setText] = useState("");
-  const [id, setId] = useState(0);
-  const [todos, setTodos] = useState([]);
+  const [text, setText] = useState('');
+  const id = useRef(0);
+
+  const [todos, setTodos] = useState(createBulkTodos);
 
   const pressEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       addTodo(text);
     }
   };
-  const addTodo = (text) => {
+  const addTodo = useCallback((text) => {
     if (text.length === 0) {
       return;
     }
     const newTodo = {
-      // state의 값이랑 중복인지 아닌지 확인하기 바꿔야하는지
-      text: text,
-      id: id,
+      text,
+      id: id.current,
     };
-    setTodos(todos.concat(newTodo));
-    setId(id + 1);
-    setText("");
+    setTodos((todos) => todos.concat(newTodo));
+    id.current += 1;
+    setText('');
     focusing.current.focus();
-  };
+  }, []);
 
-  const clickDeleteBtn = (e) => {
-    const newTodos = todos.filter((todo) => todo.id !== e);
-    setTodos(newTodos);
-  };
+  const clickDeleteBtn = useCallback((id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  }, []);
   const onChangeValue = (e) => {
     setText(e.target.value);
   };
@@ -57,7 +65,6 @@ export const MainTodo = () => {
   );
 };
 const SmartPhone = styled.div`
-  cursor: url(${cursorImg}), auto;
   text-align: center;
   border-radius: 64px;
   width: 640px;
